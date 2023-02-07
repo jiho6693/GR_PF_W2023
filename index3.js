@@ -64,16 +64,18 @@ scene.add(floor)
 floor.receiveShadow = true;
 floor.castShadow = true;
 
-// const ceil = new THREE.Mesh(geometry03, material01);
-// ceil.position.x= 0
-// ceil.position.y= +1.5
-// ceil.rotation.x = Math.PI / 2;
-// scene.add(ceil)
-// ceil.castShadow = true;
-// ceil.receiveShadow = true;
+const ceil = new THREE.Mesh(geometry03, material01);
+ceil.position.x= 0
+ceil.position.y= +1.5
+ceil.rotation.x = Math.PI / 2;
+scene.add(ceil)
+ceil.castShadow = true;
+ceil.receiveShadow = true;
 
 
-
+//텍스처 추가
+const textureLoader = new THREE.TextureLoader();
+const textureBaseColor = textureLoader.load('Rock_1_Base_Color'.jpg);
 
 //obj
 const loader = new OBJLoader();
@@ -139,8 +141,8 @@ orbitControls.update();
 
 //빛
 
-const directionalLight = new THREE.DirectionalLight(0xF9E79F , 0.2);
-  directionalLight.position.set(-9, 0 , 0);
+const directionalLight = new THREE.DirectionalLight(0xFEF9E7 , 0.5);
+  directionalLight.position.set(-9, 5 , 0);
   const dlHelper = new THREE.DirectionalLightHelper
   (directionalLight, 0.2, 0x0000ff);
   scene.add(dlHelper);
@@ -150,13 +152,13 @@ const directionalLight = new THREE.DirectionalLight(0xF9E79F , 0.2);
   directionalLight.shadow.mapSize.height  = 1024;
   directionalLight.shadow.radius = 1
 
-const light = new THREE.AmbientLight( 0x404040, 2.0); // soft white light
+const light = new THREE.AmbientLight( 0x404040, 1.5); // soft white light
 scene.add( light );
 
 
 function render(time) {
-time *= 0.00005;  // convert time to seconds  
-directionalLight.position.y = Math.cos( time ) * 5.75 + 1.25;
+time *= 0.00001;  // convert time to seconds  
+//directionalLight.position.y = Math.cos( time ) * 3.75 + 1.25;
 
 renderer.render(scene, camera);
 
