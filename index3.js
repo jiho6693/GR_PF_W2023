@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'OrbitControls';
 import { OBJLoader } from 'OBJLoader';
+import { DirectionalLight } from 'three';
 
 console.log(OrbitControls);
 
@@ -8,6 +9,18 @@ console.log(OrbitControls);
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xEEEEEE); 
 
+//땅
+const geometry = new THREE.PlaneGeometry(20,20 );
+const material = new THREE.MeshStandardMaterial({
+  color:0xffffff,
+  side: THREE.DoubleSide});
+const ground = new THREE.Mesh(geometry, material);
+ground.position.x= 0
+ground.position.y= -1.5
+ground.rotation.x = Math.PI / 2;
+scene.add(ground);  
+ground.receiveShadow = true;
+ground.castShadow = true;
 
 //벽
 const geometry01 = new THREE.PlaneGeometry(5,3 );
@@ -17,17 +30,21 @@ const material01 = new THREE.MeshStandardMaterial({
 const frontwall = new THREE.Mesh(geometry01, material01);
 frontwall.position.z= +2.5
 scene.add(frontwall);  
+frontwall.receiveShadow = true;
+frontwall.castShadow = true;
 
 const backwall = new THREE.Mesh(geometry01, material01);
 backwall.position.z= -2.5
 scene.add(backwall); 
 backwall.receiveShadow = true;
+backwall.castShadow = true;
 
 const rightwall = new THREE.Mesh(geometry01, material01);
 rightwall.position.x= +2.5
 rightwall.rotation.y = Math.PI / 2;
 scene.add(rightwall)
 rightwall.receiveShadow = true;
+rightwall.castShadow = true;
 
 const geometry02 = new THREE.PlaneGeometry(5,1.5)
 const leftwall = new THREE.Mesh(geometry02, material01);
@@ -45,6 +62,7 @@ floor.position.y= -1.5
 floor.rotation.x = Math.PI / 2;
 scene.add(floor)
 floor.receiveShadow = true;
+floor.castShadow = true;
 
 // const ceil = new THREE.Mesh(geometry03, material01);
 // ceil.position.x= 0
@@ -67,13 +85,21 @@ loader.load(
 	function ( object ) {
     object.scale.set(0.05,0.05,0.05);
     object.position.y= -1
- 		scene.add( object );
-    object.traverse( function ( child ){
-    child.castShadow = true;
+     object.traverse( function ( child ){
+     child.castShadow = true;
+     child.receiveShadow = true;
     });
-    object.traverse( function ( child ){
-      child.recShadow = true;
-      });
+ 		scene.add( object );
+    // object.traverse( function ( child ){
+    // child.castShadow = true;
+    //  });
+    // obj.scene.traverse( function( child ) {
+    //   if (child.isMesh){ 
+    //    child.castShadow = true; 
+    //    child.receiveShadow = true; 
+    //   }
+    // });
+    
  	},
 // 	// called when loading is in progresses
  	function ( xhr ) {
@@ -114,28 +140,23 @@ orbitControls.update();
 //빛
 
 const directionalLight = new THREE.DirectionalLight(0xF9E79F , 0.2);
-  directionalLight.position.set(-7, 4 , 0);
+  directionalLight.position.set(-9, 0 , 0);
   const dlHelper = new THREE.DirectionalLightHelper
   (directionalLight, 0.2, 0x0000ff);
   scene.add(dlHelper);
   scene.add(directionalLight);
   directionalLight.castShadow = true; // 그림자 0
-  // directionalLight.shadow.mapSize.width = 1024;
-  // directionalLight.shadow.mapSize.height  = 1024;
+  directionalLight.shadow.mapSize.width = 1024;
+  directionalLight.shadow.mapSize.height  = 1024;
   directionalLight.shadow.radius = 1
 
 const light = new THREE.AmbientLight( 0x404040, 2.0); // soft white light
 scene.add( light );
 
-  
-
-
 
 function render(time) {
-time *= 0.0005;  // convert time to seconds  
-//directionalLight.position.y = 0.1 * Math.cos(Date.now() / 240);
-//directionalLight.position.x = 0.1 * Math.cos(Date.now() / 240);
-
+time *= 0.00005;  // convert time to seconds  
+directionalLight.position.y = Math.cos( time ) * 5.75 + 1.25;
 
 renderer.render(scene, camera);
 
