@@ -7,21 +7,24 @@
 			body { margin: 0; }
 			canvas { display: block; }
 		</style>
-	</head>
+	</head> 
 	<body>
-		<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js">	
-		</script>
+        <script src="https://unpkg.com/three@0.139.2/examples/js/controls/OrbitControls.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.141.0/three.module.js"></script>
+		
 
 		<script type="importmap">
 			{
 			"imports": {
 				"three": "https://unpkg.com/three@0.141.0/build/three.module.js"
+				"GLTFLoader" : "https://unpkg.com/three@0.141.0/examples/jsm/loaders/GLTFLoader.js"
 			}
 			}
 		</script>
 		
 		<script tpye="module">
 			import * as THREE from 'three';
+			import {GLTFLoader} from 'GLTFLoader';
 			
 		    const scene = new THREE.Scene();
 			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -30,12 +33,23 @@
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 
-			const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			const geometry = new THREE.BoxGeometry( 2, 2, 2 );
 			const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 			const cube = new THREE.Mesh( geometry, material );
 			scene.add( cube );
 
 			camera.position.z = 5;
+            
+			const orbitControls = new THREE.OrbitControls(
+          camera,
+          renderer.domElement
+        );
+			const controls = new OrbitControls(camera, renderer.domElement);
+			controls.enableDamping = true;
+			controls.update();
+
+			
+			
 
 			function animate() {
 				requestAnimationFrame( animate );
