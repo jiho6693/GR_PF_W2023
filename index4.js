@@ -10,6 +10,30 @@ console.log(OrbitControls);
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xEEEEEE); 
 
+//카메라
+//const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const fov = 70;
+  const aspect = window.innerWidth / window.innerHeight;
+  const near = 0.1  ;
+  const far = 1000;
+  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+camera.position.z = 2;
+scene.add(camera)
+
+//렌더러
+const canvas = document.querySelector('.webgl');
+const renderer = new THREE.WebGLRenderer({
+  alpha : true,
+  antialias : true
+});
+renderer.shadowMap.enabled = true;
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const orbitControls = new OrbitControls(camera,renderer.domElement);
+
+orbitControls.update();
+
 //땅
 // const geometry = new THREE.PlaneGeometry(20,20 );
 // const material = new THREE.MeshStandardMaterial({
@@ -99,6 +123,7 @@ loader.load(
 	'Rock1.glb',
 	// called when the resource is loaded
 	function ( gltf ) {
+    
     gltf.scene.scale.set(0.5, 0.5, 0.5); 
     gltf.scene.position.y= -0.5
     gltf.scene.position.z= -1.8
@@ -138,6 +163,7 @@ loader1.load(
 	// called when the resource is loaded
 	function ( sca ) {
     sca.scene.scale.set(0.2, 0.2, 0.2); 
+    
     sca.scene.position.y= -1.5;
     sca.scene.position.z= 1.1
     sca.scene.position.x= -1
@@ -170,29 +196,7 @@ loader1.load(
 
 
  
-//카메라
-//const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const fov = 70;
-  const aspect = window.innerWidth / window.innerHeight;
-  const near = 0.1  ;
-  const far = 1000;
-  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.z = 2;
-scene.add(camera)
 
-//렌더러
-const canvas = document.querySelector('.webgl');
-const renderer = new THREE.WebGLRenderer({
-  alpha : true,
-  antialias : true
-});
-renderer.shadowMap.enabled = true;
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-const orbitControls = new OrbitControls(camera,renderer.domElement);
-
-orbitControls.update();
 
 
 //빛
@@ -231,4 +235,6 @@ camera.updateProjectionMatrix();
 renderer.setSize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener('resize', onWindowResize);
+
+
 
