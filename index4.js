@@ -18,7 +18,8 @@ const fov = 70;
   const far = 1000;
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 2;
-scene.add(camera)
+
+camera.lookAt(new THREE.Vector3(0,0,0));
 
 //렌더러
 const canvas = document.querySelector('.webgl');
@@ -30,9 +31,12 @@ renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const orbitControls = new OrbitControls(camera,renderer.domElement);
-
+//orbit추가 카메라 이후에 등장
+const orbitControls = new OrbitControls(camera, renderer.domElement);
 orbitControls.update();
+// controls.minDistance = 2;
+// controls.maxDistance = 12;
+// controls.maxPolarAngle = Math.PI / 2;   //=3.14/2
 
 //땅
 // const geometry = new THREE.PlaneGeometry(20,20 );
@@ -216,6 +220,12 @@ const directionalLight = new THREE.DirectionalLight(0xFEF9E7 , 2);
 const light = new THREE.AmbientLight( 0x404040, 0.5); // soft white light
 scene.add( light );
 
+// function animate() {
+//     requestAnimationFrame( animate );
+//     controls.update();
+//     renderer.render( scene, camera );
+//   }
+//   animate()
 
 function render(time) {
 time *= 0.0001;  // convert time to seconds  
@@ -230,9 +240,9 @@ requestAnimationFrame(render);
 // 반응형 처리
 
 function onWindowResize(){
-camera.aspect = window.innerWidth / window.innerHeight;
-camera.updateProjectionMatrix();
-renderer.setSize(window.innerWidth, window.innerHeight);
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener('resize', onWindowResize);
 

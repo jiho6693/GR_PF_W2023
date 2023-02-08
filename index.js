@@ -24,6 +24,7 @@ const fov = 150;
   const far = 1000;
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 2;
+
 scene.add(camera)
 
 //렌더러
@@ -37,17 +38,14 @@ document.body.appendChild(renderer.domElement);
 
 
 
+
   
 
 
 
 function render(time) {
 time *= 0.0005;  // convert time to seconds  
-
-
-
 renderer.render(scene, camera);
-
 requestAnimationFrame(render);
 }
 requestAnimationFrame(render);
