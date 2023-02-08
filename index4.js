@@ -18,8 +18,7 @@ const fov = 70;
   const far = 1000;
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 2;
-
-camera.lookAt(new THREE.Vector3(0,0,0));
+//camera.lookAt(new THREE.Vector3(0,0,0));
 
 //렌더러
 const canvas = document.querySelector('.webgl');
@@ -31,12 +30,15 @@ renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+
 //orbit추가 카메라 이후에 등장
 const orbitControls = new OrbitControls(camera, renderer.domElement);
 orbitControls.update();
-// controls.minDistance = 2;
-// controls.maxDistance = 12;
-// controls.maxPolarAngle = Math.PI / 2;   //=3.14/2
+orbitControls.minDistance = 0;
+orbitControls.maxDistance = 2.4;
+orbitControls.maxPolarAngle = 2.2;   //=3.14/2
+//orbitControls.maxPolarAngle = Math.PI / 2;   //=3.14/2
+
 
 //땅
 // const geometry = new THREE.PlaneGeometry(20,20 );
