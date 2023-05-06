@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/three@0.139.2/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.139.2/examples/js/controls/OrbitControls.js"></script>
+    <script>
+       
+      window.addEventListener(`DOMContentLoaded`, () => {
+        
+        const myCanvas = document.querySelector('#myCanvas');
+        const loader = new OBJLoader();
+        loader.load(
+            // resource URL
+            'scaffolding.obj',
+            // called when resource is loaded
+            function ( object ) {
+
+		scene.add( object );
+            
+            },
+        // called when loading is in progresses
+        function ( xhr ) {
+
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+        },
+        // called when loading has errors
+        function ( error ) {
+
+            console.log( 'An error happened' );
+
+	    }
+        );
+    
+        const axes = new THREE.AxesHelper();
+
+        const scene = new THREE.Scene();
+        scene.add(axes);
+
+    
+        const camera = new THREE.PerspectiveCamera(
+          50,
+          myCanvas.offsetWidth / myCanvas.offsetHeight
+        );
+        camera.position.set(1, 1, 1);
+        camera.lookAt(scene.position);
+
+        const geometry = new THREE.BoxGeometry( 0.3, 0.3, 0.3 );
+			const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			const cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+
+        const renderer = new THREE.WebGLRenderer({
+          antialias: true,
+          canvas: myCanvas,
+        });
+        renderer.setClearColor(0xffffff, 1.0); 
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(myCanvas.offsetWidth, myCanvas.offsetHeight);
+
+       
+        const orbitControls = new THREE.OrbitControls(
+          camera,
+          renderer.domElement
+        );
+    
+
+    
+        renderer.setAnimationLoop(() => {
+      
+          orbitControls.update();
+
+         
+          renderer.render(scene, camera);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas" style="width: 100%; height: 100%"></canvas>
+  </body>
+</html>

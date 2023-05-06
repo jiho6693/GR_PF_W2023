@@ -44,7 +44,7 @@ document.body.appendChild(renderer.domElement);
 
 
 function render(time) {
-time *= 0.0005;  // convert time to seconds  
+time *= 0.00005;  // convert time to seconds  
 renderer.render(scene, camera);
 requestAnimationFrame(render);
 }
